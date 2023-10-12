@@ -2,6 +2,8 @@ package com.example.onlinecinema;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.MenuItemImpl;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -36,22 +38,19 @@ public class NoRezSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_no_rez_search, container, false);
-        Button noRezButton = root.findViewById(R.id.noRezButton);
-        View activity = inflater.inflate(R.layout.activity_main, container, false);
+        return inflater.inflate(R.layout.fragment_no_rez_search, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Button noRezButton = view.findViewById(R.id.noRezButton);
         noRezButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BottomNavigationView bottomNavView = activity.findViewById(R.id.bottomNavView);
-                //bottomNavView.setSelectedItemId(R.id.main);
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.fragmentContainer, new HomeFragment());
-//                fragmentTransaction.commit();
+                BottomNavigationView bottomNavView = (BottomNavigationView) getActivity().findViewById(R.id.bottomNavView);
                 bottomNavView.setSelectedItemId(R.id.main);
-                noRezButton.setText((bottomNavView.getSelectedItemId() == R.id.main) + "");
             }
         });
-        return root;
     }
 }
