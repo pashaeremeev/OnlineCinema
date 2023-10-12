@@ -5,5 +5,16 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="activeIndicatorStyle" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/transparent</item>
+    </style>
+
+    <style name="searchViewStyle">
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:queryHint">@string/searchHintText</item>
+        <item name="hintTextColor">@color/message_color</item>
+        <item name="searchHintIcon">@null</item>
+    </style>
+
     <style name="Theme.OnlineCinema" parent="Base.Theme.OnlineCinema" />
 </resources>

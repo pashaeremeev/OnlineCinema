@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NoRezSearchFragment"
+    android:background="@color/background"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/noRezMessage"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_rez_search_text"
+        android:textColor="@color/message_color"
+        android:textAlignment="center"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/noRezButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_color"
+        android:layout_gravity="center"
+        android:text="@string/no_rez_button_text"
+        android:padding="8dp"/>
+
+</LinearLayout>

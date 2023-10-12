@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Главная"
+    <item android:title="@string/home_item"
         android:id="@+id/main"
-        android:icon="@drawable/ic_baseline_home"/>
-    <item android:title="Избранное"
+        android:icon="@drawable/ic_baseline_home" />
+    <item android:title="@string/search_item"
+        android:id="@+id/search"
+        android:icon="@drawable/ic_baseline_search"/>
+    <item android:title="@string/fav_item"
         android:id="@+id/fav"
         android:icon="@drawable/ic_baseline_fav"/>
-    <item android:title="Профиль"
+    <item android:title="@string/profile_item"
         android:id="@+id/profile"
-        android:icon="@drawable/ic_round_profile"/>
+        android:icon="@drawable/ic_round_profile" />
 
 </menu>
