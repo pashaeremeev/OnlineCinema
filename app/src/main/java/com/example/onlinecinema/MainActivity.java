@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavView = findViewById(R.id.bottomNavView);
         bottomNavView.setOnItemSelectedListener(this::onNavigationItemSelected);
         bottomNavView.setSelectedItemId(R.id.main);
-        //replaceFragment(new SearchFragment());
     }
 
     @Override

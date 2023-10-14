@@ -5,8 +5,12 @@
     <string name="fav_item">Избранное</string>
     <string name="profile_item">Профиль</string>
     <string name="warning_msg_acc">Авторизуйтесь в системе,\n чтобы использовать полный функционал.</string>
-    <string name="authorize_text">Войти</string>
+    <string name="authorize_text">Авторизоваться</string>
     <string name="searchHintText">Введите название фильма</string>
     <string name="no_rez_search_text">Ничего не нашлось,\n попробуйте найти что-то другое,\n или</string>
     <string name="no_rez_button_text">Перейти на главную</string>
+    <string name="auth_text">Войти</string>
+    <string name="reg_text">Зарегистрироваться</string>
+    <string name="login_text">Логин</string>
+    <string name="password_text">Пароль</string>
 </resources>
