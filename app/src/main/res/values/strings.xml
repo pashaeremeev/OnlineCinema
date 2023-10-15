@@ -13,4 +13,6 @@
     <string name="reg_text">Зарегистрироваться</string>
     <string name="login_text">Логин</string>
     <string name="password_text">Пароль</string>
+    <string name="greeting_text">Добро\nпожаловать</string>
+    <string name="creating_acc_text">Создайте\nаккаунт</string>
 </resources>

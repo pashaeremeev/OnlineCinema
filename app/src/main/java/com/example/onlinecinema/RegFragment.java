@@ -2,6 +2,7 @@ package com.example.onlinecinema;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,17 +14,17 @@ import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-
-public class ProfileFragment extends Fragment {
+public class RegFragment extends Fragment {
 
     private static final String AUTH_FRAG = "AUTH_FRAG";
+    private String tagFragment;
 
-    public ProfileFragment() {
-
+    public RegFragment(String tagFragment) {
+        this.tagFragment = tagFragment;
     }
 
-    public static ProfileFragment newInstance() {
-        ProfileFragment fragment = new ProfileFragment();
+    public static RegFragment newInstance(String tagFragment) {
+        RegFragment fragment = new RegFragment(tagFragment);
         return fragment;
     }
 
@@ -35,13 +36,28 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        getActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                BottomNavigationView bottomNavView = getActivity().findViewById(R.id.bottomNavView);
+                bottomNavView.setEnabled(true);
+                bottomNavView.setVisibility(View.VISIBLE);
+                Fragment greetingFragment = getActivity().
+                        getSupportFragmentManager()
+                        .findFragmentByTag(tagFragment);
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .remove(greetingFragment)
+                        .commit();
+            }
+        });
+        return inflater.inflate(R.layout.fragment_reg, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button authButton = view.findViewById(R.id.enterAccButton);
+        Button authButton = view.findViewById(R.id.crossToAuthButton);
         authButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
