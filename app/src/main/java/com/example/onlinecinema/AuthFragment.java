@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -68,6 +69,13 @@ public class AuthFragment extends Fragment {
                 BottomNavigationView bottomNavView = getActivity().findViewById(R.id.bottomNavView);
                 bottomNavView.setEnabled(false);
                 bottomNavView.setVisibility(View.GONE);
+            }
+        });
+        ImageView arrowBackBtn = view.findViewById(R.id.arrowBackButtonAuth);
+        arrowBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
             }
         });
     }
