@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-public class FilterFragment extends Fragment {
+public class FilterFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private String tagFragment;
 
@@ -57,5 +57,17 @@ public class FilterFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+        Spinner settingsOfSort = view.findViewById(R.id.sortingSettings);
+        settingsOfSort.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        adapterView.getItemAtPosition(i);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        adapterView.getItemAtPosition(0);
     }
 }
