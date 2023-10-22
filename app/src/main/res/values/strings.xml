@@ -15,4 +15,10 @@
     <string name="password_text">Пароль</string>
     <string name="greeting_text">Добро\nпожаловать</string>
     <string name="creating_acc_text">Создайте\nаккаунт</string>
+    <string name="filter_settings_text">Настройки поиска</string>
+    <string name="remove_settings_text">Сбросить</string>
+    <string-array name="settingsOfSort">
+        <item>возрастанию</item>
+        <item>убыванию</item>
+    </string-array>
 </resources>
