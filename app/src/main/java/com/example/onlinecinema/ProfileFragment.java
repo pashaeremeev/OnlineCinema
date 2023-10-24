@@ -5,18 +5,26 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.example.onlinecinema.entities.User;
+import com.example.onlinecinema.repos.PreferencesRepo;
+import com.example.onlinecinema.repos.UserRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class ProfileFragment extends Fragment {
 
     private static final String AUTH_FRAG = "AUTH_FRAG";
+    private static final String IS_GUEST = "IS_GUEST";
+    private boolean isGuest;
+    private LiveData<User> liveData;
 
     public ProfileFragment() {
 
@@ -35,7 +43,21 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        liveData = UserRepo.getCurrentUser();
+        TextView accountName = view.findViewById(R.id.accountName);
+        TextView extraInfoAboutAcc = view.findViewById(R.id.warningMsg);
+        liveData.observe(getViewLifecycleOwner(), user -> {
+            isGuest = isGuest();
+            if (!isGuest) {
+                accountName.setText(user.getUsername());
+                extraInfoAboutAcc.setText("id: " + user.getId());
+            } else {
+                accountName.setText(getResources().getString(R.string.profile_item));
+                extraInfoAboutAcc.setText(getResources().getString(R.string.warning_msg_acc));
+            }
+        });
+        return view;
     }
 
     @Override
@@ -54,5 +76,10 @@ public class ProfileFragment extends Fragment {
                 bottomNavView.setVisibility(View.GONE);
             }
         });
+    }
+
+    private Boolean isGuest() {
+        PreferencesRepo preferencesRepo = new PreferencesRepo(getContext());
+        return preferencesRepo.getBoolean(IS_GUEST);
     }
 }

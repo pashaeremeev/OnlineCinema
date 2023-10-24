@@ -11,13 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.onlinecinema.entities.User;
+import com.example.onlinecinema.repos.PreferencesRepo;
+import com.example.onlinecinema.repos.UserRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 public class AuthFragment extends Fragment {
 
     private static final String REG_FRAG = "REG_FRAG";
+    private static final String IS_GUEST = "IS_GUEST";
     private String tagFragment;
 
     public AuthFragment(String tagFragment) {
@@ -40,16 +48,7 @@ public class AuthFragment extends Fragment {
         getActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                BottomNavigationView bottomNavView = getActivity().findViewById(R.id.bottomNavView);
-                bottomNavView.setEnabled(true);
-                bottomNavView.setVisibility(View.VISIBLE);
-                Fragment greetingFragment = getActivity().
-                        getSupportFragmentManager()
-                        .findFragmentByTag(tagFragment);
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .remove(greetingFragment)
-                        .commit();
+                removeFragment(tagFragment);
             }
         });
         return inflater.inflate(R.layout.fragment_auth, container, false);
@@ -58,8 +57,12 @@ public class AuthFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button authButton = view.findViewById(R.id.crossToRegButton);
-        authButton.setOnClickListener(new View.OnClickListener() {
+        Button crossToRegButton = view.findViewById(R.id.crossToRegButton);
+        ImageView arrowBackBtn = view.findViewById(R.id.arrowBackButtonAuth);
+        Button authButton = view.findViewById(R.id.authButton);
+        EditText userNameField = view.findViewById(R.id.editAuthLogin);
+        EditText passwordField = view.findViewById(R.id.editAuthPassword);
+        crossToRegButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager()
@@ -71,12 +74,42 @@ public class AuthFragment extends Fragment {
                 bottomNavView.setVisibility(View.GONE);
             }
         });
-        ImageView arrowBackBtn = view.findViewById(R.id.arrowBackButtonAuth);
         arrowBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
             }
         });
+        authButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserRepo userRepo = new UserRepo(getContext());
+                ArrayList<User> users = userRepo.getUsers();
+                for (int i = 0; i < users.size(); i++) {
+                    User user = users.get(i);
+                    if (userNameField.getText().toString().equals(user.getUsername())
+                            && passwordField.getText().toString().equals(user.getPassword())) {
+                        Toast.makeText(getContext(), "Вы авторизованы!", Toast.LENGTH_LONG);
+                        PreferencesRepo preferencesRepo = new PreferencesRepo(getContext());
+                        preferencesRepo.save(false, IS_GUEST);
+                        userRepo.setUser(user);
+                        removeFragment(tagFragment);
+                    }
+                }
+            }
+        });
+    }
+
+    private void removeFragment(String tagFragment) {
+        BottomNavigationView bottomNavView = getActivity().findViewById(R.id.bottomNavView);
+        bottomNavView.setEnabled(true);
+        bottomNavView.setVisibility(View.VISIBLE);
+        Fragment greetingFragment = getActivity().
+                getSupportFragmentManager()
+                .findFragmentByTag(tagFragment);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .remove(greetingFragment)
+                .commit();
     }
 }

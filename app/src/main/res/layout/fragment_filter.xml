@@ -132,7 +132,8 @@
                 android:valueTo="10"
                 app:thumbColor="@color/primary_color"
                 app:tickColor="@color/transparent"
-                app:trackColorActive="@color/primary_color"/>
+                app:trackColorActive="@color/primary_color"
+                app:labelStyle="@style/sliderValue"/>
 
         </RelativeLayout>
 

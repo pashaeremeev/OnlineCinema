@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.onlinecinema.repos.PreferencesRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -23,6 +24,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavView = findViewById(R.id.bottomNavView);
         bottomNavView.setOnItemSelectedListener(this::onNavigationItemSelected);
         bottomNavView.setSelectedItemId(R.id.main);
+        //Заглушка: при запуске приложения всегда сначала гость
+        //TODO: сохранять айди авторизовавшегося пользователя
+        PreferencesRepo preferencesRepo = new PreferencesRepo(getBaseContext());
+        preferencesRepo.save(true, "IS_GUEST");
     }
 
     @Override

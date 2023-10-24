@@ -11,9 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.onlinecinema.entities.User;
+import com.example.onlinecinema.repos.UserRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 public class RegFragment extends Fragment {
 
@@ -58,8 +63,12 @@ public class RegFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button authButton = view.findViewById(R.id.crossToAuthButton);
-        authButton.setOnClickListener(new View.OnClickListener() {
+        Button crossToAuthButton = view.findViewById(R.id.crossToAuthButton);
+        ImageView arrowBackBtn = view.findViewById(R.id.arrowBackButtonReg);
+        Button regButton = view.findViewById(R.id.regButton);
+        EditText userNameField = view.findViewById(R.id.editRegLogin);
+        EditText passwordField = view.findViewById(R.id.editRegPassword);
+        crossToAuthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager()
@@ -71,11 +80,21 @@ public class RegFragment extends Fragment {
                 bottomNavView.setVisibility(View.GONE);
             }
         });
-        ImageView arrowBackBtn = view.findViewById(R.id.arrowBackButtonReg);
         arrowBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
+            }
+        });
+        regButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userName = userNameField.getText().toString();
+                String password = passwordField.getText().toString();
+                UserRepo userRepo = new UserRepo(getContext());
+                ArrayList<User> users = userRepo.getUsers();
+                users.add(new User(userName, password));
+                userRepo.saveUsers(users);
             }
         });
     }
