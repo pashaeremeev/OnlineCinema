@@ -26,6 +26,7 @@ public class AuthFragment extends Fragment {
 
     private static final String REG_FRAG = "REG_FRAG";
     private static final String IS_GUEST = "IS_GUEST";
+    private static final String CURRENT_ID = "CURRENT_ID";
     private String tagFragment;
 
     public AuthFragment(String tagFragment) {
@@ -48,7 +49,7 @@ public class AuthFragment extends Fragment {
         getActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                removeFragment(tagFragment);
+                removeFragment();
             }
         });
         return inflater.inflate(R.layout.fragment_auth, container, false);
@@ -89,27 +90,28 @@ public class AuthFragment extends Fragment {
                     User user = users.get(i);
                     if (userNameField.getText().toString().equals(user.getUsername())
                             && passwordField.getText().toString().equals(user.getPassword())) {
-                        Toast.makeText(getContext(), "Вы авторизованы!", Toast.LENGTH_LONG);
+                        Toast.makeText(getContext(), "Вы авторизованы!", Toast.LENGTH_SHORT).show();
                         PreferencesRepo preferencesRepo = new PreferencesRepo(getContext());
                         preferencesRepo.save(false, IS_GUEST);
+                        preferencesRepo.save(user.getId(), CURRENT_ID);
                         userRepo.setUser(user);
-                        removeFragment(tagFragment);
+                        removeFragment();
                     }
                 }
             }
         });
     }
 
-    private void removeFragment(String tagFragment) {
+    private void removeFragment() {
         BottomNavigationView bottomNavView = getActivity().findViewById(R.id.bottomNavView);
         bottomNavView.setEnabled(true);
         bottomNavView.setVisibility(View.VISIBLE);
-        Fragment greetingFragment = getActivity().
-                getSupportFragmentManager()
+        Fragment fragment = getActivity()
+                .getSupportFragmentManager()
                 .findFragmentByTag(tagFragment);
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .remove(greetingFragment)
+                .remove(fragment)
                 .commit();
     }
 }

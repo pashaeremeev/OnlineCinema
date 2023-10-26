@@ -27,11 +27,21 @@ public class PreferencesRepo {
         editor.commit();
     }
 
+    public void save(int value, String key) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+
     public String get(String key) {
         return preferences.getString(key, "");
     }
 
     public Boolean getBoolean(String key) {
         return preferences.getBoolean(key, true);
+    }
+
+    public int getInt(String key) {
+        return preferences.getInt(key, 0);
     }
 }

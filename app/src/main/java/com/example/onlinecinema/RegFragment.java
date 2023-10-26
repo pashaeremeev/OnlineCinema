@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.onlinecinema.entities.User;
 import com.example.onlinecinema.repos.UserRepo;
@@ -45,16 +46,7 @@ public class RegFragment extends Fragment {
         getActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                BottomNavigationView bottomNavView = getActivity().findViewById(R.id.bottomNavView);
-                bottomNavView.setEnabled(true);
-                bottomNavView.setVisibility(View.VISIBLE);
-                Fragment greetingFragment = getActivity().
-                        getSupportFragmentManager()
-                        .findFragmentByTag(tagFragment);
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .remove(greetingFragment)
-                        .commit();
+                removeFragment();
             }
         });
         return inflater.inflate(R.layout.fragment_reg, container, false);
@@ -95,7 +87,22 @@ public class RegFragment extends Fragment {
                 ArrayList<User> users = userRepo.getUsers();
                 users.add(new User(userName, password));
                 userRepo.saveUsers(users);
+                Toast.makeText(getContext(), "Вы зарегистрировались!", Toast.LENGTH_SHORT).show();
+                removeFragment();
             }
         });
+    }
+
+    public void removeFragment() {
+        BottomNavigationView bottomNavView = getActivity().findViewById(R.id.bottomNavView);
+        bottomNavView.setEnabled(true);
+        bottomNavView.setVisibility(View.VISIBLE);
+        Fragment fragment = getActivity().
+                getSupportFragmentManager()
+                .findFragmentByTag(tagFragment);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .remove(fragment)
+                .commit();
     }
 }

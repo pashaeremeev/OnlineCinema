@@ -8,13 +8,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.onlinecinema.entities.User;
 import com.example.onlinecinema.repos.PreferencesRepo;
+import com.example.onlinecinema.repos.UserRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavView;
+    private static final String IS_GUEST = "IS_GUEST";
+    private static final String CURRENT_ID = "CURRENT_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +28,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavView = findViewById(R.id.bottomNavView);
         bottomNavView.setOnItemSelectedListener(this::onNavigationItemSelected);
         bottomNavView.setSelectedItemId(R.id.main);
-        //Заглушка: при запуске приложения всегда сначала гость
-        //TODO: сохранять айди авторизовавшегося пользователя
+
         PreferencesRepo preferencesRepo = new PreferencesRepo(getBaseContext());
-        preferencesRepo.save(true, "IS_GUEST");
+        boolean isGuest = preferencesRepo.getBoolean(IS_GUEST);
+        if (!isGuest) {
+            UserRepo userRepo = new UserRepo(getBaseContext());
+            int currentIdUser = preferencesRepo.getInt(CURRENT_ID);
+            User currentUser = userRepo.getById(currentIdUser);
+            userRepo.setUser(currentUser);
+        }
     }
 
     @Override
@@ -60,13 +69,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .replace(R.id.fragmentContainer, fragment)
                 .commit();
     }
-
-    private void updateNavigationBarState(int actionId) {
-        Menu menu = bottomNavView.getMenu();
-        for (int i = 0, size = menu.size(); i < size; i++) {
-            MenuItem item = menu.getItem(i);
-            item.setChecked(item.getItemId() == actionId);
-        }
-    }
-
 }

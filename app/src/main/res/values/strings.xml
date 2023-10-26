@@ -6,6 +6,7 @@
     <string name="profile_item">Профиль</string>
     <string name="warning_msg_acc">Авторизуйтесь в системе,\n чтобы использовать полный функционал.</string>
     <string name="authorize_text">Авторизоваться</string>
+    <string name="exit_text">Выйти</string>
     <string name="searchHintText">Введите название фильма</string>
     <string name="no_rez_search_text">Ничего не нашлось,\n попробуйте найти что-то другое,\n или</string>
     <string name="no_rez_button_text">Перейти на главную</string>

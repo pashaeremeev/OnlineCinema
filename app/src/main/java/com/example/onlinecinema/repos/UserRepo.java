@@ -53,4 +53,8 @@ public class UserRepo {
     public void setUser(User user) {
         currentUser.postValue(user);
     }
+
+    public void deleteUser() {
+        currentUser.postValue(new User("Guest", "null"));
+    }
 }

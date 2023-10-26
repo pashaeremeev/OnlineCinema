@@ -47,14 +47,20 @@ public class ProfileFragment extends Fragment {
         liveData = UserRepo.getCurrentUser();
         TextView accountName = view.findViewById(R.id.accountName);
         TextView extraInfoAboutAcc = view.findViewById(R.id.warningMsg);
+        Button exitButton = view.findViewById(R.id.exitAccButton);
+        Button authButton = view.findViewById(R.id.enterAccButton);
         liveData.observe(getViewLifecycleOwner(), user -> {
             isGuest = isGuest();
             if (!isGuest) {
                 accountName.setText(user.getUsername());
                 extraInfoAboutAcc.setText("id: " + user.getId());
+                authButton.setVisibility(View.GONE);
+                exitButton.setVisibility(View.VISIBLE);
             } else {
                 accountName.setText(getResources().getString(R.string.profile_item));
                 extraInfoAboutAcc.setText(getResources().getString(R.string.warning_msg_acc));
+                authButton.setVisibility(View.VISIBLE);
+                exitButton.setVisibility(View.GONE);
             }
         });
         return view;
@@ -64,6 +70,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button authButton = view.findViewById(R.id.enterAccButton);
+        Button exitButton = view.findViewById(R.id.exitAccButton);
         authButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +81,15 @@ public class ProfileFragment extends Fragment {
                 BottomNavigationView bottomNavView = getActivity().findViewById(R.id.bottomNavView);
                 bottomNavView.setEnabled(false);
                 bottomNavView.setVisibility(View.GONE);
+            }
+        });
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserRepo userRepo = new UserRepo(getContext());
+                userRepo.deleteUser();
+                PreferencesRepo preferencesRepo = new PreferencesRepo(getContext());
+                preferencesRepo.save(true, IS_GUEST);
             }
         });
     }
