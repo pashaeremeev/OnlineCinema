@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.onlinecinema.entities.User;
@@ -17,8 +16,7 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavView;
-    private static final String IS_GUEST = "IS_GUEST";
-    private static final String CURRENT_ID = "CURRENT_ID";
+    private UserRepo userRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +27,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavView.setOnItemSelectedListener(this::onNavigationItemSelected);
         bottomNavView.setSelectedItemId(R.id.main);
 
-        PreferencesRepo preferencesRepo = new PreferencesRepo(getBaseContext());
-        boolean isGuest = preferencesRepo.getBoolean(IS_GUEST);
-        if (!isGuest) {
-            UserRepo userRepo = new UserRepo(getBaseContext());
-            int currentIdUser = preferencesRepo.getInt(CURRENT_ID);
+        userRepo = new UserRepo(getBaseContext());
+        if (!userRepo.isGuest()) {
+            int currentIdUser = userRepo.getCurrentIdUser();
             User currentUser = userRepo.getById(currentIdUser);
             userRepo.setUser(currentUser);
         }

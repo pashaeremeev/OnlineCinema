@@ -22,8 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class ProfileFragment extends Fragment {
 
     private static final String AUTH_FRAG = "AUTH_FRAG";
-    private static final String IS_GUEST = "IS_GUEST";
-    private boolean isGuest;
+    private UserRepo userRepo;
     private LiveData<User> liveData;
 
     public ProfileFragment() {
@@ -49,9 +48,9 @@ public class ProfileFragment extends Fragment {
         TextView extraInfoAboutAcc = view.findViewById(R.id.warningMsg);
         Button exitButton = view.findViewById(R.id.exitAccButton);
         Button authButton = view.findViewById(R.id.enterAccButton);
+        userRepo = new UserRepo(getContext());
         liveData.observe(getViewLifecycleOwner(), user -> {
-            isGuest = isGuest();
-            if (!isGuest) {
+            if (!userRepo.isGuest()) {
                 accountName.setText(user.getUsername());
                 extraInfoAboutAcc.setText("id: " + user.getId());
                 authButton.setVisibility(View.GONE);
@@ -86,16 +85,8 @@ public class ProfileFragment extends Fragment {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserRepo userRepo = new UserRepo(getContext());
                 userRepo.deleteUser();
-                PreferencesRepo preferencesRepo = new PreferencesRepo(getContext());
-                preferencesRepo.save(true, IS_GUEST);
             }
         });
-    }
-
-    private Boolean isGuest() {
-        PreferencesRepo preferencesRepo = new PreferencesRepo(getContext());
-        return preferencesRepo.getBoolean(IS_GUEST);
     }
 }

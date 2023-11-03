@@ -91,9 +91,6 @@ public class AuthFragment extends Fragment {
                     if (userNameField.getText().toString().equals(user.getUsername())
                             && passwordField.getText().toString().equals(user.getPassword())) {
                         Toast.makeText(getContext(), "Вы авторизованы!", Toast.LENGTH_SHORT).show();
-                        PreferencesRepo preferencesRepo = new PreferencesRepo(getContext());
-                        preferencesRepo.save(false, IS_GUEST);
-                        preferencesRepo.save(user.getId(), CURRENT_ID);
                         userRepo.setUser(user);
                         removeFragment();
                     }

@@ -15,8 +15,12 @@ import java.util.ArrayList;
 public class UserRepo {
 
     private static final String KEY_USER = "KEY_USER";
+    private static final String IS_GUEST = "IS_GUEST";
+    private static final String CURRENT_ID = "CURRENT_ID";
+
     private PreferencesRepo preferencesRepo;
     private static MutableLiveData<User> currentUser = new MutableLiveData<>(new User("Guest", "null"));
+    private boolean isGuest;
 
     public UserRepo(Context context) {
         this.preferencesRepo = new PreferencesRepo(context);
@@ -52,9 +56,21 @@ public class UserRepo {
 
     public void setUser(User user) {
         currentUser.postValue(user);
+        preferencesRepo.save(user.getId(), CURRENT_ID);
+        preferencesRepo.save(false, IS_GUEST);
     }
 
     public void deleteUser() {
         currentUser.postValue(new User("Guest", "null"));
+        preferencesRepo.save(0, CURRENT_ID);
+        preferencesRepo.save(true, IS_GUEST);
+    }
+
+    public boolean isGuest() {
+        return preferencesRepo.getBoolean(IS_GUEST);
+    }
+
+    public int getCurrentIdUser() {
+        return preferencesRepo.getInt(CURRENT_ID);
     }
 }

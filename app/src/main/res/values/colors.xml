@@ -7,5 +7,5 @@
     <color name="primary_color">#00D8C3</color>
     <color name="message_color">#808080</color>
     <color name="transparent">#00000000</color>
-    <color name="searchview_bg">#708090</color>
+    <color name="search_view_bg">#708090</color>
 </resources>
