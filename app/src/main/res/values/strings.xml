@@ -19,9 +19,9 @@
     <string name="filter_settings_text">Настройки поиска</string>
     <string name="remove_settings_text">Сбросить</string>
     <string name="save_settings_text">Сохранить</string>
-    <string name="to_mark_text">Поставить\n оценку</string>
-    <string name="to_like_text">Добавить\n в избранное</string>
-    <string name="to_watch_text">Смотреть\n фильм</string>
+    <string name="to_mark_text">Оценка</string>
+    <string name="to_like_text">Нравится</string>
+    <string name="to_watch_text">Смотреть</string>
     <string-array name="settings_of_sort">
         <item>по возрастанию</item>
         <item>по убыванию</item>

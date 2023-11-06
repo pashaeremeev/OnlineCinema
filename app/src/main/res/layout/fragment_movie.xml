@@ -26,8 +26,8 @@
 
         <ImageView
             android:id="@+id/posterView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_width="180dp"
+            android:layout_height="270dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,18 +57,18 @@
             android:id="@+id/origNameView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Оригинальное название"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
+            android:text="Оригинальное название"
             android:textColor="@color/message_color"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movieName"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintHorizontal_bias="0"/>
+            app:layout_constraintVertical_bias="0" />
 
         <LinearLayout
             android:id="@+id/detailsMovie"
@@ -112,7 +112,7 @@
                 android:id="@+id/countryView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cтрана:"
+                android:text="Cтраны:"
                 android:textColor="@color/primary_color"
                 android:textSize="15sp" />
 
@@ -126,53 +126,52 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/featuresField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailsMovie"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintVertical_bias="0">
+            android:layout_margin="15dp">
 
             <Button
                 android:id="@+id/markButton"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:background="@color/transparent"
                 android:drawableTop="@drawable/round_star_24"
-                android:text="@string/to_mark_text"/>
+                android:text="@string/to_mark_text" />
 
             <Button
                 android:id="@+id/watchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/favButton"
+                android:layout_toEndOf="@+id/markButton"
                 android:background="@color/transparent"
                 android:drawableTop="@drawable/round_play_arrow_30"
-                android:text="@string/to_watch_text"/>
+                android:text="@string/to_watch_text" />
 
             <Button
                 android:id="@+id/favButton"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
                 android:background="@color/transparent"
                 android:drawableTop="@drawable/ic_baseline_fav"
-                android:text="@string/to_like_text"/>
+                android:text="@string/to_like_text" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/descHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="Сенопсис фильма"
+            android:text="Описание фильма"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -186,33 +185,33 @@
             android:id="@+id/hideNshowButton"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
             android:src="@drawable/baseline_open_full_text_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/descHeader"
             app:layout_constraintTop_toBottomOf="@+id/featuresField"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintVertical_bias="0"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="5dp"/>
+            app:layout_constraintVertical_bias="0" />
 
         <TextView
             android:id="@+id/descText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
             android:text="Текст"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descHeader"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintVertical_bias="0"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            app:layout_constraintVertical_bias="0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
