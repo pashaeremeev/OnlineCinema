@@ -7,19 +7,43 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListPopupWindow;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.example.onlinecinema.entities.SettingsOfFilter;
+import com.google.android.material.slider.RangeSlider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FilterFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private String tagFragment;
+    private SettingsOfFilter settings;
+    private Spinner settingsOfSort;
+    private Spinner settingsOfGenre;
+    private Spinner settingsOfCountry;
+    private RangeSlider ratingSettings;
+    private EditText settingsOfYear;
+    private Button saveSettings;
+    private Button removeSettings;
 
     public FilterFragment(String tagFragment) {
         this.tagFragment = tagFragment;
+        this.settings = new SettingsOfFilter();
     }
 
     public static FilterFragment newInstance(String tagFragment) {
@@ -57,8 +81,31 @@ public class FilterFragment extends Fragment implements AdapterView.OnItemSelect
                 getActivity().onBackPressed();
             }
         });
-        Spinner settingsOfSort = view.findViewById(R.id.sortingSettings);
+
+        settingsOfSort = view.findViewById(R.id.sortingSettings);
+        settingsOfGenre = view.findViewById(R.id.genreSettings);
+        settingsOfCountry = view.findViewById(R.id.countrySettings);
+        ratingSettings = view.findViewById(R.id.ratingSettings);
+        settingsOfYear = view.findViewById(R.id.yearsSettings);
+        saveSettings = view.findViewById(R.id.saveSettingsButton);
+        removeSettings = view.findViewById(R.id.removeSettingsButton);
+
+        settingsOfGenre.setOnItemSelectedListener(this);
+        settingsOfCountry.setOnItemSelectedListener(this);
         settingsOfSort.setOnItemSelectedListener(this);
+
+        saveSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View range) {
+                saveSettings();
+            }
+        });
+        removeSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearSettings();
+            }
+        });
     }
 
     @Override
@@ -69,5 +116,31 @@ public class FilterFragment extends Fragment implements AdapterView.OnItemSelect
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         adapterView.getItemAtPosition(0);
+    }
+
+    public void clearSettings() {
+        settingsOfGenre.setSelection(0);
+        settingsOfCountry.setSelection(0);
+        settingsOfSort.setSelection(0);
+        settingsOfYear.setText("");
+        ArrayList<Float> newValues = new ArrayList<Float>();
+        newValues.add(0.0f);
+        newValues.add(10.0f);
+        ratingSettings.setValues(newValues);
+        saveSettings();
+    }
+
+    public void saveSettings() {
+        settings.setGenre(settingsOfGenre.getSelectedItem().toString());
+        settings.setCountry(settingsOfCountry.getSelectedItem().toString());
+        String textYear = settingsOfYear.getText().toString();
+        if (textYear.length() == 0) {
+            settings.setYear(null);
+        } else {
+            settings.setYear(Integer.parseInt(settingsOfYear.getText().toString()));
+        }
+        settings.setMinRating(ratingSettings.getValues().get(0));
+        settings.setMaxRating(ratingSettings.getValues().get(1));
+        settings.setTypeOfSort(settingsOfSort.getSelectedItemPosition());
     }
 }

@@ -31,7 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu"/>
 
-
     <FrameLayout
         android:id="@+id/windowContainer"
         android:layout_width="match_parent"

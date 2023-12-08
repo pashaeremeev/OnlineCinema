@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,9 @@ import com.example.onlinecinema.entities.User;
 import com.example.onlinecinema.repos.UserRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class RegFragment extends Fragment {
@@ -60,6 +64,7 @@ public class RegFragment extends Fragment {
         Button regButton = view.findViewById(R.id.regButton);
         EditText userNameField = view.findViewById(R.id.editRegLogin);
         EditText passwordField = view.findViewById(R.id.editRegPassword);
+        EditText repeatPwdField = view.findViewById(R.id.editRepPassword);
         crossToAuthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,14 +88,41 @@ public class RegFragment extends Fragment {
             public void onClick(View view) {
                 String userName = userNameField.getText().toString();
                 String password = passwordField.getText().toString();
-                UserRepo userRepo = new UserRepo(getContext());
-                ArrayList<User> users = userRepo.getUsers();
-                users.add(new User(userName, password));
-                userRepo.saveUsers(users);
-                Toast.makeText(getContext(), "Вы зарегистрировались!", Toast.LENGTH_SHORT).show();
-                removeFragment();
+                String repeatedPwd = "helloWorld";
+                //String repeatedPwd = repeatPwdField.getText().toString();
+                if (repeatedPwd.equals(password)) {
+                    UserRepo userRepo = new UserRepo(getContext());
+                    ArrayList<User> users = userRepo.getUsers();
+                    String generatedPwd = securePassword(password);
+                    if (generatedPwd != null) {
+                        users.add(new User(userName, generatedPwd));
+                        userRepo.saveUsers(users);
+                        Toast.makeText(getContext(), "Вы зарегистрировались!", Toast.LENGTH_SHORT).show();
+                        removeFragment();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Пароли не совпадают.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    public String securePassword(String password) {
+        byte[] bytesOfPwd = password.getBytes(StandardCharsets.UTF_8);
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(bytesOfPwd);
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            Log.d("pwd", sb.toString());
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void removeFragment() {

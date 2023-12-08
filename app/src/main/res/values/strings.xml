@@ -14,6 +14,7 @@
     <string name="reg_text">Зарегистрироваться</string>
     <string name="login_text">Логин</string>
     <string name="password_text">Пароль</string>
+    <string name="repeat_password_text">Повторите пароль</string>
     <string name="greeting_text">Добро\nпожаловать</string>
     <string name="creating_acc_text">Создайте\nаккаунт</string>
     <string name="filter_settings_text">Настройки поиска</string>
@@ -25,5 +26,17 @@
     <string-array name="settings_of_sort">
         <item>по возрастанию</item>
         <item>по убыванию</item>
+    </string-array>
+    <string-array name="countries">
+        <item>СССР</item>
+        <item>США</item>
+        <item>Норвегия</item>
+        <item>Австралия</item>
+    </string-array>
+    <string-array name="genres">
+        <item>триллер</item>
+        <item>драма</item>
+        <item>фэнтези</item>
+        <item>фантастика</item>
     </string-array>
 </resources>

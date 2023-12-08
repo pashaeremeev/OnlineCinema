@@ -40,7 +40,7 @@
             app:layout_constraintVertical_bias="0.03" />
 
         <RelativeLayout
-            android:id="@+id/jenres"
+            android:id="@+id/genres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -59,6 +59,17 @@
                 android:textColor="@color/primary_color"
                 android:textSize="20sp" />
 
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/genreSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:entries="@array/genres"
+                android:theme="@style/spinner"/>
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -70,7 +81,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/jenres"
+            app:layout_constraintTop_toBottomOf="@+id/genres"
             app:layout_constraintVertical_bias="0">
 
             <TextView
@@ -79,6 +90,17 @@
                 android:text="Страны"
                 android:textColor="@color/primary_color"
                 android:textSize="20sp" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/countrySettings"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:entries="@array/countries"
+                android:theme="@style/spinner"/>
 
         </RelativeLayout>
 
@@ -100,6 +122,18 @@
                 android:text="Год"
                 android:textColor="@color/primary_color"
                 android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/yearsSettings"
+                android:background="@color/transparent"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:hint="Введите год"
+                android:textColorHint="@color/message_color"
+                android:textColor="@color/primary_color"
+                android:textSize="20sp"
+                android:inputType="number"
+                android:layout_alignParentEnd="true"/>
 
         </RelativeLayout>
 
@@ -124,12 +158,14 @@
                 android:textSize="20sp" />
 
             <com.google.android.material.slider.RangeSlider
+                android:id="@+id/ratingSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:stepSize="1"
                 android:valueFrom="0"
                 android:valueTo="10"
+                app:values="@array/initial_slider_values"
                 app:thumbColor="@color/primary_color"
                 app:tickColor="@color/transparent"
                 app:trackColorActive="@color/primary_color"

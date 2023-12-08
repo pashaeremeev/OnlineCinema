@@ -18,8 +18,6 @@ import com.example.onlinecinema.entities.Movie;
 import com.example.onlinecinema.repos.MovieRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.w3c.dom.Text;
-
 public class MovieFragment extends Fragment {
 
     private Movie movie;

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,9 @@ import com.example.onlinecinema.repos.PreferencesRepo;
 import com.example.onlinecinema.repos.UserRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class AuthFragment extends Fragment {
@@ -89,7 +93,7 @@ public class AuthFragment extends Fragment {
                 for (int i = 0; i < users.size(); i++) {
                     User user = users.get(i);
                     if (userNameField.getText().toString().equals(user.getUsername())
-                            && passwordField.getText().toString().equals(user.getPassword())) {
+                            && securePassword(passwordField.getText().toString()).equals(user.getPassword())) {
                         Toast.makeText(getContext(), "Вы авторизованы!", Toast.LENGTH_SHORT).show();
                         userRepo.setUser(user);
                         removeFragment();
@@ -97,6 +101,24 @@ public class AuthFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public String securePassword(String password) {
+        byte[] bytesOfPwd = password.getBytes(StandardCharsets.UTF_8);
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(bytesOfPwd);
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            Log.d("pwd", sb.toString());
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void removeFragment() {
