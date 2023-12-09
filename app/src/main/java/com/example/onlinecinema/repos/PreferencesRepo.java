@@ -27,7 +27,7 @@ public class PreferencesRepo {
         editor.commit();
     }
 
-    public void save(int value, String key) {
+    public void save(Integer value, String key) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(key, value);
         editor.commit();

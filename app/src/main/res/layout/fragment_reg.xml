@@ -38,6 +38,19 @@
             app:layout_constraintVertical_bias="0.15"
             app:layout_constraintHorizontal_bias="0.1"/>
 
+        <TextView
+            android:id="@+id/pwdMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pwd_valid_text"
+            android:visibility="invisible"
+            android:textColor="@color/message_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/greetingText"
+            app:layout_constraintVertical_bias="0.1" />
+
         <EditText
             android:id="@+id/editRegLogin"
             android:layout_width="match_parent"
@@ -52,11 +65,12 @@
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:textSize="20sp"
+            android:layout_marginTop="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/greetingText"
-            app:layout_constraintVertical_bias="0.25" />
+            app:layout_constraintTop_toBottomOf="@+id/pwdMessage"
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/editRegPassword"

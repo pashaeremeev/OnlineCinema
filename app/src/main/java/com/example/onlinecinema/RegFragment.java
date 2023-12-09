@@ -14,21 +14,38 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.onlinecinema.entities.User;
-import com.example.onlinecinema.repos.UserRepo;
+import com.example.onlinecinema.requests.RestClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RegFragment extends Fragment {
 
     private static final String AUTH_FRAG = "AUTH_FRAG";
     private String tagFragment;
+    private String PWD_VALID = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^*-]).{8,}$";
+    private Button crossToAuthButton;
+    private ImageView arrowBackBtn;
+    private Button regButton;
+    private EditText userNameField;
+    private EditText passwordField;
+    private EditText repeatPwdField;
+    private TextView validText;
 
     public RegFragment(String tagFragment) {
         this.tagFragment = tagFragment;
@@ -59,12 +76,13 @@ public class RegFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button crossToAuthButton = view.findViewById(R.id.crossToAuthButton);
-        ImageView arrowBackBtn = view.findViewById(R.id.arrowBackButtonReg);
-        Button regButton = view.findViewById(R.id.regButton);
-        EditText userNameField = view.findViewById(R.id.editRegLogin);
-        EditText passwordField = view.findViewById(R.id.editRegPassword);
-        EditText repeatPwdField = view.findViewById(R.id.editRepPassword);
+        crossToAuthButton = view.findViewById(R.id.crossToAuthButton);
+        arrowBackBtn = view.findViewById(R.id.arrowBackButtonReg);
+        regButton = view.findViewById(R.id.regButton);
+        userNameField = view.findViewById(R.id.editRegLogin);
+        passwordField = view.findViewById(R.id.editRegPassword);
+        repeatPwdField = view.findViewById(R.id.editRepPassword);
+        validText = view.findViewById(R.id.pwdMessage);
         crossToAuthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,23 +106,66 @@ public class RegFragment extends Fragment {
             public void onClick(View view) {
                 String userName = userNameField.getText().toString();
                 String password = passwordField.getText().toString();
-                String repeatedPwd = "helloWorld";
-                //String repeatedPwd = repeatPwdField.getText().toString();
-                if (repeatedPwd.equals(password)) {
-                    UserRepo userRepo = new UserRepo(getContext());
-                    ArrayList<User> users = userRepo.getUsers();
-                    String generatedPwd = securePassword(password);
-                    if (generatedPwd != null) {
-                        users.add(new User(userName, generatedPwd));
-                        userRepo.saveUsers(users);
-                        Toast.makeText(getContext(), "Вы зарегистрировались!", Toast.LENGTH_SHORT).show();
-                        removeFragment();
+                //String repeatedPwd = "helloWorld";
+                String repeatedPwd = repeatPwdField.getText().toString();
+                if (isValid(password)) {
+                    if (repeatedPwd.equals(password)) {
+                        //UserRepo userRepo = new UserRepo(getContext());
+                        //ArrayList<User> users = userRepo.getUsers();
+                        String generatedPwd = securePassword(password);
+                        if (generatedPwd != null) {
+                            //users.add(new User(userName, generatedPwd));
+                            //userRepo.saveUsers(users);
+                            RestClient restClient = RestClient.getInstance();
+                            OkHttpClient client = restClient.getClient();
+                            Gson gson = new Gson();
+                            String jsonData = gson.toJson(new User(userName, generatedPwd));
+                            RequestBody body = restClient.createRequestBody(jsonData);
+                            Request request = restClient.createPostRequest("/users/", body);
+                            client.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                    requireActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getContext(), "Проверьте интернет-соединение.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                                    if (response.isSuccessful()) {
+                                        requireActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(getContext(), "Вы зарегистрировались!", Toast.LENGTH_SHORT).show();
+                                                removeFragment();
+                                            }
+                                        });
+                                    } else {
+                                        requireActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(getContext(), "Пользователь с таким именем уже зарегистрирован.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Пароли не совпадают.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Пароли не совпадают.", Toast.LENGTH_SHORT).show();
+                    validText.setVisibility(View.VISIBLE);
                 }
             }
         });
+    }
+
+    public boolean isValid(String password) {
+        return password.matches(PWD_VALID);
     }
 
     public String securePassword(String password) {

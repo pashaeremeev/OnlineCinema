@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavView.setSelectedItemId(R.id.main);
 
         userRepo = new UserRepo(getBaseContext());
+        PreferencesRepo p = new PreferencesRepo(getBaseContext());
+        //p.save(true, "IS_GUEST");
         if (!userRepo.isGuest()) {
             int currentIdUser = userRepo.getCurrentIdUser();
             User currentUser = userRepo.getById(currentIdUser);

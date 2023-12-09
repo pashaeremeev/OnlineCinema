@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Movie {
 
-    private int id;
+    private Integer id;
     private String firstName;
     private String origName;
     private ArrayList<String> countries;
@@ -19,10 +19,10 @@ public class Movie {
     private String description;
     private boolean isFavorite;
 
-    public Movie(int id, String firstName, String origName, ArrayList<String> countries,
+    public Movie(Integer id, String firstName, String origName, ArrayList<String> countries,
                  ArrayList<String> genres, int year, String poster, String preview,
                  String stream, String description, boolean isFavorite) {
-        this.id = id;
+        this.id = null;
         this.firstName = firstName;
         this.origName = origName;
         this.countries = countries;
@@ -35,11 +35,11 @@ public class Movie {
         this.isFavorite = isFavorite;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

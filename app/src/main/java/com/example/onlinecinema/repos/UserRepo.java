@@ -39,7 +39,7 @@ public class UserRepo {
         return (userList == null) ? new ArrayList<>() : userList;
     }
 
-    public User getById(int id) {
+    public User getById(Integer id) {
         ArrayList<User> userList = getUsers();
         for (int i = 0; i < userList.size(); i++) {
             User user = userList.get(i);
