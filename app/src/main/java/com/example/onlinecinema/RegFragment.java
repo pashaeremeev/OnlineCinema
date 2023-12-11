@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class RegFragment extends Fragment {
     private EditText passwordField;
     private EditText repeatPwdField;
     private TextView validText;
+    private ProgressBar progress;
 
     public RegFragment(String tagFragment) {
         this.tagFragment = tagFragment;
@@ -83,6 +85,7 @@ public class RegFragment extends Fragment {
         passwordField = view.findViewById(R.id.editRegPassword);
         repeatPwdField = view.findViewById(R.id.editRepPassword);
         validText = view.findViewById(R.id.pwdMessage);
+        progress = view.findViewById(R.id.progressReg);
         crossToAuthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +107,7 @@ public class RegFragment extends Fragment {
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progress.setVisibility(View.VISIBLE);
                 String userName = userNameField.getText().toString();
                 String password = passwordField.getText().toString();
                 //String repeatedPwd = "helloWorld";
@@ -129,6 +133,7 @@ public class RegFragment extends Fragment {
                                         @Override
                                         public void run() {
                                             Toast.makeText(getContext(), "Проверьте интернет-соединение.", Toast.LENGTH_SHORT).show();
+                                            progress.setVisibility(View.GONE);
                                         }
                                     });
                                 }
@@ -148,6 +153,7 @@ public class RegFragment extends Fragment {
                                             @Override
                                             public void run() {
                                                 Toast.makeText(getContext(), "Пользователь с таким именем уже зарегистрирован.", Toast.LENGTH_SHORT).show();
+                                                progress.setVisibility(View.GONE);
                                             }
                                         });
                                     }
@@ -156,6 +162,7 @@ public class RegFragment extends Fragment {
                         }
                     } else {
                         Toast.makeText(getContext(), "Пароли не совпадают.", Toast.LENGTH_SHORT).show();
+                        progress.setVisibility(View.GONE);
                     }
                 } else {
                     validText.setVisibility(View.VISIBLE);

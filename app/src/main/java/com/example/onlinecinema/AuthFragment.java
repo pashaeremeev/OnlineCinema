@@ -14,17 +14,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.onlinecinema.entities.User;
-import com.example.onlinecinema.repos.PreferencesRepo;
 import com.example.onlinecinema.repos.UserRepo;
+import com.example.onlinecinema.requests.RestClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class AuthFragment extends Fragment {
 
@@ -67,6 +75,7 @@ public class AuthFragment extends Fragment {
         Button authButton = view.findViewById(R.id.authButton);
         EditText userNameField = view.findViewById(R.id.editAuthLogin);
         EditText passwordField = view.findViewById(R.id.editAuthPassword);
+        ProgressBar progressBar = view.findViewById(R.id.progressAuth);
         crossToRegButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,17 +97,79 @@ public class AuthFragment extends Fragment {
         authButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserRepo userRepo = new UserRepo(getContext());
-                ArrayList<User> users = userRepo.getUsers();
-                for (int i = 0; i < users.size(); i++) {
+                //UserRepo userRepo = new UserRepo(getContext());
+                //ArrayList<User> users = userRepo.getUsers();
+                progressBar.setVisibility(View.VISIBLE);
+                String username = userNameField.getText().toString();
+                String password = passwordField.getText().toString();
+                RestClient restClient = RestClient.getInstance();
+                OkHttpClient client = restClient.getClient();
+                Gson gson = new Gson();
+                Request request = restClient.createGetRequest("/users/" + username);
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        requireActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "Проверьте интернет-соединение.", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        String jsonData;
+                        User user;
+                        if (response.isSuccessful()) {
+                            try {
+                                jsonData = response.body().string();
+                                Log.d("user", jsonData);
+                                user = gson.fromJson(jsonData, User.class);
+                                if (username.equals(user.getUsername())
+                                        && securePassword(password).equals(user.getPassword())) {
+                                    requireActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            UserRepo userRepo = new UserRepo(getContext());
+                                            userRepo.setUser(user);
+                                            removeFragment();
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(getContext(), "Неправильный логин или пароль.", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            } catch (IOException e) {
+                                requireActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getContext(), "Ошибка сервера.", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                });
+                            }
+                        } else {
+                            requireActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getContext(), "Неправильный логин или пароль.", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    }
+                });
+                /*for (int i = 0; i < users.size(); i++) {
                     User user = users.get(i);
-                    if (userNameField.getText().toString().equals(user.getUsername())
-                            && securePassword(passwordField.getText().toString()).equals(user.getPassword())) {
+                    if (username.equals(user.getUsername())
+                            && securePassword(password).equals(user.getPassword())) {
                         Toast.makeText(getContext(), "Вы авторизованы!", Toast.LENGTH_SHORT).show();
                         userRepo.setUser(user);
                         removeFragment();
                     }
-                }
+                }*/
             }
         });
     }

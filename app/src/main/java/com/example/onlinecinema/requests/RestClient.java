@@ -37,6 +37,12 @@ public class RestClient {
                 .build();
     }
 
+    public Request createGetRequest(String endpoint) {
+        return new Request.Builder()
+                .url(baseUrl + endpoint)
+                .build();
+    }
+
     public OkHttpClient getClient() {
         return client;
     }
