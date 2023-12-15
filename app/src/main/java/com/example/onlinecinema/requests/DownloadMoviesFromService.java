@@ -14,12 +14,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DownloadMovies {
+public class DownloadMoviesFromService {
 
     private static final int REFRESH_TIME = 900000;
     private static ScheduledExecutorService scheduler;
 
-    public static void downloadChannels(MovieRepo movieRepo) {
+    public static void downloadMovies(MovieRepo movieRepo) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
 
         scheduler.scheduleAtFixedRate(new Runnable()
@@ -36,7 +36,8 @@ public class DownloadMovies {
                                 Movie movie = movieJson.createMovie();
                                 movies.add(movie);
                             }
-                            movieRepo.setMovies(movies);
+                            //movieRepo.setMovies(movies);
+                            movieRepo.setDownloadedMovies(movies);
                         }
                     }
 

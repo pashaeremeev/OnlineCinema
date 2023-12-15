@@ -39,7 +39,7 @@ public class MyFavMoviesAdapter extends RecyclerView.Adapter<MyFavMoviePreviewHo
                 .load(posterUrl)
                 .error(R.drawable.baseline_no_internet_24)
                 .into(holder.getFavPreviewMovie());
-        holder.getNameRuText().setText(movie.getFirstName());
+        holder.getNameRuText().setText(movie.getNameRu());
         holder.getNameOrigText().setText(movie.getOrigName());
         String preText = holder.getYearText().getText().toString();
         holder.getYearText().setText(preText + movie.getYear());

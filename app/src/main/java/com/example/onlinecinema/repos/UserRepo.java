@@ -68,7 +68,7 @@ public class UserRepo {
     }
 
     public void deleteUser() {
-        currentUser.postValue(new User("Guest", "null"));
+        currentUser.postValue(null);
         //preferencesRepo.save(0, CURRENT_ID);
         preferencesRepo.save("null", LAST_USER);
         preferencesRepo.save(true, IS_GUEST);

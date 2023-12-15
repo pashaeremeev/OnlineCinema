@@ -2,61 +2,65 @@ package com.example.onlinecinema.entities;
 
 import androidx.annotation.Nullable;
 
+import com.example.onlinecinema.requests.json.MovieJson;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Movie {
 
-    private Integer id;
-    private String firstName;
-    private String origName;
+    private Integer idMovie;
+    private String nameRu;
+    private String nameOriginal;
     private ArrayList<String> countries;
     private ArrayList<String> genres;
-    private int year;
-    private String poster;
-    private String preview;
+    private Integer year;
+    private String posterUrl;
+    private String posterUrlPreview;
     private String stream;
-    private String description;
-    private boolean isFavorite;
+    private String desc;
+    private String duration;
+    private Double rating;
 
-    public Movie(Integer id, String firstName, String origName, ArrayList<String> countries,
-                 ArrayList<String> genres, int year, String poster, String preview,
-                 String stream, String description, boolean isFavorite) {
-        this.id = null;
-        this.firstName = firstName;
-        this.origName = origName;
+    public Movie(String nameRu, String nameOriginal, ArrayList<String> countries,
+                 ArrayList<String> genres, Integer year, String posterUrl, String posterUrlPreview,
+                 String stream, String desc, String duration, Double rating) {
+        this.idMovie = null;
+        this.nameRu = nameRu;
+        this.nameOriginal = nameOriginal;
         this.countries = countries;
         this.genres = genres;
         this.year = year;
-        this.poster = poster;
-        this.preview = preview;
+        this.posterUrl = posterUrl;
+        this.posterUrlPreview = posterUrlPreview;
         this.stream = stream;
-        this.description = description;
-        this.isFavorite = isFavorite;
+        this.desc = desc;
+        this.duration = duration;
+        this.rating = rating;
     }
 
     public Integer getId() {
-        return id;
+        return idMovie;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Integer idMovie) {
+        this.idMovie = idMovie;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getNameRu() {
+        return nameRu;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.nameRu = firstName;
     }
 
     public String getOrigName() {
-        return origName;
+        return nameOriginal;
     }
 
-    public void setOrigName(String origName) {
-        this.origName = origName;
+    public void setOrigName(String nameOriginal) {
+        this.nameOriginal = nameOriginal;
     }
 
     public ArrayList<String> getCountries() {
@@ -79,24 +83,24 @@ public class Movie {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
     public String getPoster() {
-        return poster;
+        return posterUrl;
     }
 
-    public void setPoster(String poster) {
-        this.poster = poster;
+    public void setPoster(String posterUrl) {
+        this.posterUrl = posterUrl;
     }
 
     public String getPreview() {
-        return preview;
+        return posterUrlPreview;
     }
 
     public void setPreviewUrl(String preview) {
-        this.preview = preview;
+        this.posterUrlPreview = preview;
     }
 
     public String getStream() {
@@ -107,20 +111,20 @@ public class Movie {
         this.stream = stream;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.desc = description;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
+    public Double getRating() {
+        return rating;
     }
 
     @Override
@@ -130,6 +134,13 @@ public class Movie {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, origName, countries, genres, year, poster, preview, stream);
+        return Objects.hash(idMovie, nameRu, nameOriginal, countries, genres, year, posterUrl, posterUrlPreview, stream);
+    }
+
+    public MovieJson toJson() {
+        return new MovieJson(this.idMovie,  this.nameRu, this.nameOriginal,
+                this.countries,
+                this.genres, this.year, this.posterUrl,
+                this.posterUrlPreview, this.stream, this.desc, this.duration, this.rating);
     }
 }

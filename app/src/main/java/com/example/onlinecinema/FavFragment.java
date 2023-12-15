@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.example.onlinecinema.entities.Movie;
 import com.example.onlinecinema.repos.MovieRepo;
-import com.example.onlinecinema.requests.DownloadMovies;
 
 import java.util.ArrayList;
 
@@ -44,12 +43,12 @@ public class FavFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MyFavMoviesAdapter(getContext(), movie -> clickOnMovieView(movie));
         liveData.observe(getViewLifecycleOwner(), movies -> {
-            for (int i = 0; i < movies.size(); i++) {
+            /*for (int i = 0; i < movies.size(); i++) {
                 Movie movie = movies.get(i);
                 if (movie.isFavorite()) {
                     favMovies.add(movie);
                 }
-            }
+            }*/
             adapter.setMovies(favMovies);
             adapter.notifyDataSetChanged();
         });
@@ -67,7 +66,7 @@ public class FavFragment extends Fragment {
     private Void clickOnMovieView(Movie movie) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.windowContainer, new MovieFragment(movie.getId(), movieRepo), movie.getId() + "");
+        fragmentTransaction.replace(R.id.windowContainer, new MovieFragment(movie), movie.getId() + "");
         fragmentTransaction.commitAllowingStateLoss();
         return null;
     }

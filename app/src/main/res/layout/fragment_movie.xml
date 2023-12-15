@@ -88,7 +88,7 @@
                 android:id="@+id/ratingView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Рейтинг:"
+                android:text="Рейтинг: "
                 android:textColor="@color/primary_color"
                 android:textSize="15sp" />
 
@@ -96,7 +96,7 @@
                 android:id="@+id/durationView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Продолжительность:"
+                android:text="Продолжительность: "
                 android:textColor="@color/primary_color"
                 android:textSize="15sp" />
 
@@ -112,7 +112,7 @@
                 android:id="@+id/countryView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cтраны:"
+                android:text="Cтраны: "
                 android:textColor="@color/primary_color"
                 android:textSize="15sp" />
 
@@ -120,18 +120,70 @@
                 android:id="@+id/yearView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Год:"
+                android:text="Год: "
                 android:textColor="@color/primary_color"
                 android:textSize="15sp" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/markValueText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Ваша оценка: "
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/detailsMovie"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:visibility="gone"/>
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/markSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:stepSize="1"
+            android:valueFrom="1"
+            android:valueTo="10"
+            app:thumbColor="@color/primary_color"
+            app:tickColor="@color/transparent"
+            app:trackColorActive="@color/primary_color"
+            app:labelBehavior="gone"
+            app:layout_constraintTop_toBottomOf="@+id/markValueText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/saveMarkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сохранить оценку"
+            android:background="@color/transparent"
+            android:textColor="@color/primary_color"
+            app:layout_constraintTop_toBottomOf="@+id/markSlider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:id="@+id/featuresField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailsMovie"
+            app:layout_constraintTop_toBottomOf="@+id/saveMarkButton"
             android:layout_margin="15dp">
 
             <Button
@@ -140,6 +192,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:background="@color/transparent"
+                android:textColor="@color/white"
                 android:drawableTop="@drawable/round_star_24"
                 android:text="@string/to_mark_text" />
 
@@ -151,6 +204,7 @@
                 android:layout_toStartOf="@+id/favButton"
                 android:layout_toEndOf="@+id/markButton"
                 android:background="@color/transparent"
+                android:textColor="@color/white"
                 android:drawableTop="@drawable/round_play_arrow_30"
                 android:text="@string/to_watch_text" />
 
@@ -161,6 +215,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
                 android:background="@color/transparent"
+                android:textColor="@color/white"
                 android:drawableTop="@drawable/ic_baseline_fav"
                 android:text="@string/to_like_text" />
 

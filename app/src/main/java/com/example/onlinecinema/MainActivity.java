@@ -3,13 +3,18 @@ package com.example.onlinecinema;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.onlinecinema.entities.User;
-import com.example.onlinecinema.repos.PreferencesRepo;
+import com.example.onlinecinema.repos.MovieRepo;
 import com.example.onlinecinema.repos.UserRepo;
+import com.example.onlinecinema.requests.DownloadFavMovies;
+import com.example.onlinecinema.requests.DownloadMoviesFromDB;
+import com.example.onlinecinema.requests.DownloadMoviesFromService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -17,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private BottomNavigationView bottomNavView;
     private UserRepo userRepo;
+    private MovieRepo movieRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //User currentUser = userRepo.getById(currentIdUser);
             userRepo.setUser(currentUser);
         }
+
+        movieRepo = new MovieRepo();
+        /*DownloadMovieList.downloadChannels(movieRepo);
+        Log.d("Download", "true");*/
+        DownloadMoviesFromService.downloadMovies(movieRepo);
+        DownloadMoviesFromDB.downloadMovies(movieRepo);
     }
 
     @Override

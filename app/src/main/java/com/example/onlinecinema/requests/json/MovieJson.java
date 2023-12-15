@@ -6,20 +6,22 @@ import java.util.ArrayList;
 
 public class MovieJson {
 
-    private int idMovie;
+    private Integer idMovie;
     private String nameRu;
     private String nameOriginal;
     private ArrayList<String> countries;
     private ArrayList<String> genres;
-    private int year;
+    private Integer year;
     private String posterUrl;
     private String posterUrlPreview;
     private String stream;
     private String desc;
+    private String duration;
+    private Double rating;
 
-    public MovieJson(int idMovie, String nameRu, String nameOriginal, ArrayList<String> countries,
-                     ArrayList<String> genres, int year, String posterUrl,
-                     String posterUrlPreview, String stream, String desc) {
+    public MovieJson(Integer idMovie, String nameRu, String nameOriginal, ArrayList<String> countries,
+                     ArrayList<String> genres, Integer year, String posterUrl,
+                     String posterUrlPreview, String stream, String desc, String duration, Double rating) {
         this.idMovie = idMovie;
         this.nameRu = nameRu;
         this.nameOriginal = nameOriginal;
@@ -30,6 +32,8 @@ public class MovieJson {
         this.posterUrlPreview = posterUrlPreview;
         this.stream = stream;
         this.desc = desc;
+        this.duration = duration;
+        this.rating = rating;
     }
 
     public int getIdMovie() {
@@ -113,7 +117,7 @@ public class MovieJson {
     }
 
     public Movie createMovie() {
-        return new Movie(idMovie, nameRu, nameOriginal, countries, genres, year, posterUrl,
-                posterUrlPreview, stream, desc, false);
+        return new Movie(nameRu, nameOriginal, countries, genres, year, posterUrl,
+                posterUrlPreview, stream, desc, duration, rating);
     }
 }
