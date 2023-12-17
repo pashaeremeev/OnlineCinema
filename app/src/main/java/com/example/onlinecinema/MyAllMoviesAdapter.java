@@ -3,7 +3,6 @@ package com.example.onlinecinema;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -18,9 +17,9 @@ public class MyAllMoviesAdapter extends RecyclerView.Adapter<MyMoviePreviewHolde
 
     private Context context;
     private ArrayList<Movie> movies;
-    private ClickListener clickListener;
+    private ClickListenerMovie clickListener;
 
-    public MyAllMoviesAdapter(Context context, ClickListener clickListener) {
+    public MyAllMoviesAdapter(Context context, ClickListenerMovie clickListener) {
         this.context = context;
         this.clickListener = clickListener;
     }

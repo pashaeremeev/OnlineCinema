@@ -18,7 +18,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.onlinecinema.entities.User;
+import com.example.onlinecinema.repos.MovieRepo;
 import com.example.onlinecinema.repos.UserRepo;
+import com.example.onlinecinema.requests.DownloadFavMovies;
+import com.example.onlinecinema.requests.DownloadMoviesFromDB;
 import com.example.onlinecinema.requests.RestClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
@@ -97,8 +100,6 @@ public class AuthFragment extends Fragment {
         authButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //UserRepo userRepo = new UserRepo(getContext());
-                //ArrayList<User> users = userRepo.getUsers();
                 progressBar.setVisibility(View.VISIBLE);
                 String username = userNameField.getText().toString();
                 String password = passwordField.getText().toString();
@@ -123,33 +124,32 @@ public class AuthFragment extends Fragment {
                         String jsonData;
                         User user;
                         if (response.isSuccessful()) {
-                            try {
                                 jsonData = response.body().string();
-                                Log.d("user", jsonData);
                                 user = gson.fromJson(jsonData, User.class);
                                 if (username.equals(user.getUsername())
                                         && securePassword(password).equals(user.getPassword())) {
                                     requireActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            UserRepo userRepo = new UserRepo(getContext());
-                                            userRepo.setUser(user);
-                                            removeFragment();
+                                            if (user.getActive()) {
+                                                UserRepo userRepo = new UserRepo(getContext());
+                                                userRepo.setUser(user);
+                                                removeFragment();
+                                            } else {
+                                                Toast.makeText(getContext(), "Пользователь заблокирован.", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
+                                            }
                                         }
                                     });
                                 } else {
-                                    Toast.makeText(getContext(), "Неправильный логин или пароль.", Toast.LENGTH_SHORT).show();
-                                    progressBar.setVisibility(View.GONE);
+                                    requireActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getContext(), "Неправильный логин или пароль.", Toast.LENGTH_SHORT).show();
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+                                    });
                                 }
-                            } catch (IOException e) {
-                                requireActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(getContext(), "Ошибка сервера.", Toast.LENGTH_SHORT).show();
-                                        progressBar.setVisibility(View.GONE);
-                                    }
-                                });
-                            }
                         } else {
                             requireActivity().runOnUiThread(new Runnable() {
                                 @Override
@@ -161,15 +161,6 @@ public class AuthFragment extends Fragment {
                         }
                     }
                 });
-                /*for (int i = 0; i < users.size(); i++) {
-                    User user = users.get(i);
-                    if (username.equals(user.getUsername())
-                            && securePassword(password).equals(user.getPassword())) {
-                        Toast.makeText(getContext(), "Вы авторизованы!", Toast.LENGTH_SHORT).show();
-                        userRepo.setUser(user);
-                        removeFragment();
-                    }
-                }*/
             }
         });
     }

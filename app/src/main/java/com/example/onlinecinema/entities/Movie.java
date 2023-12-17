@@ -143,4 +143,8 @@ public class Movie {
                 this.genres, this.year, this.posterUrl,
                 this.posterUrlPreview, this.stream, this.desc, this.duration, this.rating);
     }
+
+    public int compareTo(Movie movie) {
+        return Double.compare(this.getRating(), movie.getRating());
+    }
 }

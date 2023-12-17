@@ -1,11 +1,13 @@
 package com.example.onlinecinema;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.media3.common.util.UnstableApi;
 
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,14 +24,18 @@ import android.widget.ImageView;
 import android.widget.ListPopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.onlinecinema.entities.SettingsOfFilter;
 import com.google.android.material.slider.RangeSlider;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FilterFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+
+    private static final String FLT_KEY = "FLT_KEY";
 
     private String tagFragment;
     private SettingsOfFilter settings;
@@ -123,7 +129,7 @@ public class FilterFragment extends Fragment implements AdapterView.OnItemSelect
         settingsOfCountry.setSelection(0);
         settingsOfSort.setSelection(0);
         settingsOfYear.setText("");
-        ArrayList<Float> newValues = new ArrayList<Float>();
+        ArrayList<Float> newValues = new ArrayList<>();
         newValues.add(0.0f);
         newValues.add(10.0f);
         ratingSettings.setValues(newValues);
@@ -142,5 +148,11 @@ public class FilterFragment extends Fragment implements AdapterView.OnItemSelect
         settings.setMinRating(ratingSettings.getValues().get(0));
         settings.setMaxRating(ratingSettings.getValues().get(1));
         settings.setTypeOfSort(settingsOfSort.getSelectedItemPosition());
+
+        Bundle bundle = new Bundle();
+        String jsonSettings = new Gson().toJson(settings);
+        bundle.putString(FLT_KEY, jsonSettings);
+        getActivity().getIntent().putExtra(FLT_KEY, jsonSettings);
+        Toast.makeText(getContext(), "Настройки поиска сохранены.", Toast.LENGTH_SHORT).show();
     }
 }

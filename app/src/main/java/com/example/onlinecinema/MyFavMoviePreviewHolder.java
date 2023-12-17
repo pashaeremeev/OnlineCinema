@@ -19,7 +19,7 @@ public class MyFavMoviePreviewHolder extends RecyclerView.ViewHolder {
 
     public MyFavMoviePreviewHolder(@NonNull View itemView) {
         super(itemView);
-        this.favPreviewMovie = itemView.findViewById(R.id.favPreviewMovie);
+        this.favPreviewMovie = itemView.findViewById(R.id.previewMovie);
         this.nameOrigText = itemView.findViewById(R.id.nameOrigText);
         this.nameRuText = itemView.findViewById(R.id.nameRuText);
         this.yearText = itemView.findViewById(R.id.yearText);

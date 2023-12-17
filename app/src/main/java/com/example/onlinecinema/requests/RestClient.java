@@ -37,6 +37,13 @@ public class RestClient {
                 .build();
     }
 
+    public Request createPutRequest(String endpoint, RequestBody body) {
+        return new Request.Builder()
+                .url(baseUrl + endpoint)
+                .put(body)
+                .build();
+    }
+
     public Request createGetRequest(String endpoint) {
         return new Request.Builder()
                 .url(baseUrl + endpoint)

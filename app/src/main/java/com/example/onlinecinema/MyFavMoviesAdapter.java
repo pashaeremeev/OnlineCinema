@@ -17,9 +17,9 @@ public class MyFavMoviesAdapter extends RecyclerView.Adapter<MyFavMoviePreviewHo
 
     private Context context;
     private ArrayList<Movie> movies;
-    private ClickListener clickListener;
+    private ClickListenerMovie clickListener;
 
-    public MyFavMoviesAdapter(Context context, ClickListener clickListener) {
+    public MyFavMoviesAdapter(Context context, ClickListenerMovie clickListener) {
         this.context = context;
         this.clickListener = clickListener;
     }
@@ -41,8 +41,8 @@ public class MyFavMoviesAdapter extends RecyclerView.Adapter<MyFavMoviePreviewHo
                 .into(holder.getFavPreviewMovie());
         holder.getNameRuText().setText(movie.getNameRu());
         holder.getNameOrigText().setText(movie.getOrigName());
-        String preText = holder.getYearText().getText().toString();
-        holder.getYearText().setText(preText + movie.getYear());
+        //String preText = holder.getYearText().getText().toString();
+        holder.getYearText().setText("Год: " + movie.getYear());
         holder.itemView.setOnClickListener(view -> clickListener.invoke(movie));
     }
 

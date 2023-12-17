@@ -9,13 +9,6 @@
         <item name="android:color">@color/transparent</item>
     </style>
 
-    <style name="searchViewStyle">
-        <item name="android:editTextColor">@color/white</item>
-        <item name="android:queryHint">@string/searchHintText</item>
-        <item name="hintTextColor">@color/message_color</item>
-        <item name="searchHintIcon">@null</item>
-    </style>
-
     <style name="spinner" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
         <item name="android:textColor">@color/primary_color</item>
         <item name="android:textSize">20sp</item>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".FavFragment">
+    tools:context=".SearchFragment">
 
     <LinearLayout
         android:id="@+id/searchField"
@@ -20,18 +20,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
+        <EditText
+            android:id="@+id/searchEditField"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:theme="@style/searchViewStyle"
-            app:iconifiedByDefault="false"
+            android:hint="Поиск"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:inputType="text"
+            android:maxLines="1"
+            android:backgroundTint="@color/transparent"
+            android:layout_marginStart="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:queryBackground="@android:color/transparent"
-            app:searchIcon="@drawable/ic_baseline_search" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="5dp"
+            android:paddingEnd="15dp"
+            android:src="@drawable/ic_baseline_search"/>
 
         <ImageView
             android:id="@+id/filterButton"
@@ -43,27 +54,19 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/searchContainer"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rezList"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchField">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/search_item"
-        android:layout_gravity="center"
-        android:textColor="@color/primary_color"
+        android:orientation="vertical"
+        tools:listitem="@layout/fav_movies_item"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/searchField"
+        app:layout_constraintVertical_bias="0" />
 
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

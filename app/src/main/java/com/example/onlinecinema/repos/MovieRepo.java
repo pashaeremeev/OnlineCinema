@@ -41,7 +41,7 @@ public class MovieRepo {
         ArrayList<Movie> movies = movieMutableLiveData.getValue();
         for (int i = 0; i < movies.size(); i++) {
             Movie movie = movies.get(i);
-            if (movie.getId() == id) {
+            if (movie.getId() == id.intValue()) {
                 return movie;
             }
         }

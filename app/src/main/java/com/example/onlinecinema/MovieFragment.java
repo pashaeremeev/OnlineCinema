@@ -6,14 +6,18 @@ import android.os.Bundle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.media3.common.util.UnstableApi;
 
 import android.view.LayoutInflater;
-import android.view.PixelCopy;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +29,14 @@ import com.example.onlinecinema.repos.MovieRepo;
 import com.example.onlinecinema.repos.UserRepo;
 import com.example.onlinecinema.requests.DownloadFavMovies;
 import com.example.onlinecinema.requests.DownloadMoviesFromDB;
+import com.example.onlinecinema.requests.DownloadUserFromDB;
 import com.example.onlinecinema.requests.RestClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.slider.Slider;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,13 +44,18 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MovieFragment extends Fragment {
+@UnstableApi public class MovieFragment extends Fragment {
+
+    private static final int SHORT_TEXT_LENGTH = 200;
+    private static final String VIDEO_FRAG = "VIDEO_FRAG";
 
     private Movie movie;
     private String tagFragment;
-    private static final int SHORT_TEXT_LENGTH = 200;
     private boolean isExpandedText = false;
     private boolean isBeMarked = false;
+    private UserRepo userRepo;
+    private MovieRepo movieRepo;
+    private LiveData<ArrayList<Movie>> liveData;
 
     public MovieFragment(Movie movie) {
         this.movie = movie;
@@ -87,12 +98,33 @@ public class MovieFragment extends Fragment {
         ImageView hideNshowBtn = view.findViewById(R.id.hideNshowButton);
         Button markButton = view.findViewById(R.id.markButton);
         Button favButton = view.findViewById(R.id.favButton);
+        Button watchButton = view.findViewById(R.id.watchButton);
         Slider markSlider = view.findViewById(R.id.markSlider);
         TextView markValueText = view.findViewById(R.id.markValueText);
         Button saveMarkButton = view.findViewById(R.id.saveMarkButton);
         TextView ratingView = view.findViewById(R.id.ratingView);
-        String ratingText = ratingView.getText().toString();
-        ratingView.setText(ratingText + movie.getRating());
+        ratingView.setText("Рейтинг: " + movie.getRating());
+
+        movieRepo = new MovieRepo();
+        liveData = movieRepo.getMovieMutableLiveData();
+        liveData.observe(getViewLifecycleOwner(), movies -> {
+            for (int i = 0; i < movies.size(); i++) {
+                Movie elem = movies.get(i);
+                if (elem.getId() == movie.getId()) {
+                    ratingView.setText("Рейтинг: " + elem.getRating());
+                }
+            }
+        });
+
+        RelativeLayout features = view.findViewById(R.id.featuresField);
+        userRepo = new UserRepo(getContext());
+        if (userRepo.isGuest()) {
+            features.setVisibility(View.GONE);
+        } else if (!UserRepo.getCurrentUser().getValue().getActive()) {
+            features.setVisibility(View.GONE);
+        } else {
+            features.setVisibility(View.VISIBLE);
+        }
 
         markValueText.setText("Ваша оценка: " + (int) markSlider.getValue());
 
@@ -234,6 +266,9 @@ public class MovieFragment extends Fragment {
                                         Drawable top = getContext().getResources().getDrawable(R.drawable.ic_baseline_fav,
                                                 getActivity().getTheme());
                                         favButton.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
+                                        ArrayList<Integer> favMovieIds = movieRepo.getFavMovieMutableLiveData().getValue();
+                                        favMovieIds.remove(movie.getId());
+                                        movieRepo.setFavMovies(favMovieIds);
                                     } else {
                                         Drawable top = getContext().getResources().getDrawable(R.drawable.fav_heart,
                                                 getActivity().getTheme());
@@ -274,7 +309,7 @@ public class MovieFragment extends Fragment {
                         requireActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getContext(), "Соединение с сервром потеряно.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Соединение с сервером потеряно.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -286,9 +321,9 @@ public class MovieFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     Toast.makeText(getContext(), "Фильм оценен.", Toast.LENGTH_SHORT).show();
+                                    DownloadMoviesFromDB.downloadMovies(movieRepo);
                                 }
                             });
-                            DownloadMoviesFromDB.downloadMovies(new MovieRepo());
                         } else {
                             requireActivity().runOnUiThread(new Runnable() {
                                 @Override
@@ -301,6 +336,23 @@ public class MovieFragment extends Fragment {
                 });
             }
         });
+
+        watchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openVideoPlayer();
+            }
+        });
+    }
+
+    private void openVideoPlayer() {
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContainer, VideoFragment.getInstance(movie.getId(), VIDEO_FRAG), VIDEO_FRAG)
+                .commit();
+        BottomNavigationView bottomNavView = getActivity().findViewById(R.id.bottomNavView);
+        bottomNavView.setEnabled(false);
+        bottomNavView.setVisibility(View.GONE);
     }
 
     private String readGenres() {

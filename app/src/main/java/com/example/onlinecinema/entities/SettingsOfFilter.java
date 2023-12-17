@@ -1,6 +1,11 @@
 package com.example.onlinecinema.entities;
 
-public class SettingsOfFilter {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class SettingsOfFilter implements Parcelable {
 
     private String genre;
 
@@ -27,6 +32,43 @@ public class SettingsOfFilter {
         this.maxRating = maxRating;
         this.typeOfSort = typeOfSort;
     }
+
+    protected SettingsOfFilter(Parcel in) {
+        genre = in.readString();
+        country = in.readString();
+        if (in.readByte() == 0) {
+            year = null;
+        } else {
+            year = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            minRating = null;
+        } else {
+            minRating = in.readFloat();
+        }
+        if (in.readByte() == 0) {
+            maxRating = null;
+        } else {
+            maxRating = in.readFloat();
+        }
+        if (in.readByte() == 0) {
+            typeOfSort = null;
+        } else {
+            typeOfSort = in.readInt();
+        }
+    }
+
+    public static final Creator<SettingsOfFilter> CREATOR = new Creator<SettingsOfFilter>() {
+        @Override
+        public SettingsOfFilter createFromParcel(Parcel in) {
+            return new SettingsOfFilter(in);
+        }
+
+        @Override
+        public SettingsOfFilter[] newArray(int size) {
+            return new SettingsOfFilter[size];
+        }
+    };
 
     public String getGenre() {
         return genre;
@@ -76,4 +118,19 @@ public class SettingsOfFilter {
         this.typeOfSort = typeOfSort;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeStringArray(new String[]{genre + "",
+                country+ "",
+                year + "",
+                minRating + "",
+                maxRating + "",
+                typeOfSort + ""});
+    }
 }

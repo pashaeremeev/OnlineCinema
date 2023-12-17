@@ -67,8 +67,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enterAccButton"
         android:padding="5dp"
-        app:layout_constraintVertical_bias="0.03"
+        android:layout_marginTop="10dp"
+        app:layout_constraintVertical_bias="0.0"
         android:background="@color/primary_color"
         android:text="@string/exit_text" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/unblockNblockButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exitAccButton"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@color/primary_color"
+        android:text="@string/to_block_n_unblock_text"
+        android:visibility="gone"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/appointAdminButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/unblockNblockButton"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@color/primary_color"
+        android:text="@string/to_appoint_admin_text"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

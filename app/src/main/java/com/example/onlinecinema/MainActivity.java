@@ -15,6 +15,7 @@ import com.example.onlinecinema.repos.UserRepo;
 import com.example.onlinecinema.requests.DownloadFavMovies;
 import com.example.onlinecinema.requests.DownloadMoviesFromDB;
 import com.example.onlinecinema.requests.DownloadMoviesFromService;
+import com.example.onlinecinema.requests.DownloadUserFromDB;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -38,14 +39,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //p.save(true, "IS_GUEST");
         if (!userRepo.isGuest()) {
             User currentUser = userRepo.getLastUser();
-            //Integer currentIdUser = userRepo.getCurrentIdUser();
-            //User currentUser = userRepo.getById(currentIdUser);
             userRepo.setUser(currentUser);
+            if (currentUser != null) {
+                DownloadUserFromDB.downloadMovies(userRepo);
+            }
         }
 
         movieRepo = new MovieRepo();
-        /*DownloadMovieList.downloadChannels(movieRepo);
-        Log.d("Download", "true");*/
         DownloadMoviesFromService.downloadMovies(movieRepo);
         DownloadMoviesFromDB.downloadMovies(movieRepo);
     }

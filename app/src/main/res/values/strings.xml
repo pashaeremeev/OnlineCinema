@@ -23,21 +23,27 @@
     <string name="to_mark_text">Оценка</string>
     <string name="to_like_text">Нравится</string>
     <string name="to_watch_text">Смотреть</string>
+    <string name="to_block_n_unblock_text">Разблокировать/заблокировать\nпользователя</string>
+    <string name="to_appoint_admin_text">Назначить администратора</string>
     <string-array name="settings_of_sort">
         <item>по возрастанию</item>
         <item>по убыванию</item>
     </string-array>
     <string-array name="countries">
+        <item>любая</item>
         <item>СССР</item>
         <item>США</item>
         <item>Норвегия</item>
         <item>Австралия</item>
     </string-array>
     <string-array name="genres">
+        <item>любой</item>
         <item>триллер</item>
         <item>драма</item>
         <item>фэнтези</item>
         <item>фантастика</item>
     </string-array>
     <string name="pwd_valid_text">Пароль должен быть длиной не менее 8 символов,\nсодержать буквы латинского алфавита,\nцифру, букву в верхнем регистре,\nспециальный символ: #?!@$%^*-</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

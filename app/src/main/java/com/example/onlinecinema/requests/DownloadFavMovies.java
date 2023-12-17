@@ -35,7 +35,6 @@ public class DownloadFavMovies {
         {
             public void run() {
                 User user = UserRepo.getCurrentUser().getValue();
-                if (user != null) {
                     RestClient favClient = RestClient.getInstance();
                     Request favRequest = favClient.createGetRequest("/movies/fav/" + user.getId());
                     favClient.getClient().newCall(favRequest).enqueue(new Callback() {
@@ -50,12 +49,10 @@ public class DownloadFavMovies {
                                 Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
                                 String jsonData = response.body().string();
                                 ArrayList<Integer> favMovies = new Gson().fromJson(jsonData, type);
-                                Log.d("pop",favMovies.toString());
                                 movieRepo.setFavMovies(favMovies);
                             }
                         }
                     });
-                }
             }
         }, 0, REFRESH_TIME, TimeUnit.MILLISECONDS);
     }

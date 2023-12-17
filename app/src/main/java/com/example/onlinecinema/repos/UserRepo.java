@@ -20,7 +20,7 @@ public class UserRepo {
     private static final String LAST_USER = "LAST_USER";
 
     private PreferencesRepo preferencesRepo;
-    private static MutableLiveData<User> currentUser = new MutableLiveData<>(new User("Guest", "null"));
+    private static MutableLiveData<User> currentUser = new MutableLiveData<>(null);
 
     public UserRepo(Context context) {
         this.preferencesRepo = new PreferencesRepo(context);

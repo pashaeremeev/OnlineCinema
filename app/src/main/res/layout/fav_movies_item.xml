@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/favPreviewMovie"
-        android:maxLines="1"
+        android:singleLine="true"
         android:layout_margin="8dp"
         android:text="Название фильма"
         android:textSize="20sp"
@@ -46,7 +46,7 @@
         android:layout_marginBottom="8dp"
         android:layout_toEndOf="@+id/favPreviewMovie"
         android:layout_below="@id/nameRuText"
-        android:maxLines="1"
+        android:singleLine="true"
         android:text="Оригинальное название"
         android:textColor="@color/white"
         android:textSize="15sp" />
@@ -61,7 +61,7 @@
         android:layout_marginBottom="8dp"
         android:layout_toEndOf="@+id/favPreviewMovie"
         android:layout_below="@id/nameOrigText"
-        android:maxLines="1"
+        android:singleLine="true"
         android:text="Год: "
         android:textColor="@color/white"
         android:textSize="15sp" />
