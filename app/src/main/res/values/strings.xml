@@ -31,17 +31,62 @@
     </string-array>
     <string-array name="countries">
         <item>любая</item>
-        <item>СССР</item>
-        <item>США</item>
-        <item>Норвегия</item>
+        <item>Финляндия</item>
+        <item>Новая Зеландия</item>
+        <item>Китай</item>
+        <item>Великобритания</item>
+        <item>Германия (ФРГ)</item>
+        <item>Нидерланды</item>
+        <item>Россия</item>
         <item>Австралия</item>
+        <item>Швейцария</item>
+        <item>Люксембург</item>
+        <item>Норвегия</item>
+        <item>Германия</item>
+        <item>Корея Южная</item>
+        <item>Таиланд</item>
+        <item>Марокко</item>
+        <item>Швеция</item>
+        <item>Ирландия</item>
+        <item>США</item>
+        <item>Канада</item>
+        <item>Дания</item>
+        <item>Гонконг</item>
+        <item>Мальта</item>
+        <item>Бельгия</item>
+        <item>Беларусь</item>
+        <item>Франция</item>
+        <item>Италия</item>
+        <item>СССР</item>
+        <item>Япония</item>
+        <item>Мексика</item>
+        <item>Испания</item>
+        <item>Польша</item>
+        <item>Индия</item>
     </string-array>
     <string-array name="genres">
         <item>любой</item>
+        <item>музыка</item>
+        <item>комедия</item>
+        <item>фантастика</item>
+        <item>мюзикл</item>
+        <item>биография</item>
+        <item>мультфильм</item>
+        <item>семейный</item>
+        <item>боевик</item>
+        <item>детектив</item>
+        <item>фэнтези</item>
         <item>триллер</item>
         <item>драма</item>
-        <item>фэнтези</item>
-        <item>фантастика</item>
+        <item>ужасы</item>
+        <item>военный</item>
+        <item>приключения</item>
+        <item>аниме</item>
+        <item>вестерн</item>
+        <item>спорт</item>
+        <item>история</item>
+        <item>мелодрама</item>
+        <item>криминал</item>
     </string-array>
     <string name="pwd_valid_text">Пароль должен быть длиной не менее 8 символов,\nсодержать буквы латинского алфавита,\nцифру, букву в верхнем регистре,\nспециальный символ: #?!@$%^*-</string>
     <!-- TODO: Remove or change this placeholder text -->

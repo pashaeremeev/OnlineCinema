@@ -9,7 +9,7 @@ import okhttp3.RequestBody;
 
 public class RestClient {
 
-    private static String baseUrl = "http://192.168.1.93:8080";
+    private static String baseUrl = "http://192.168.0.19:8080";
     private static String headers = "application/json; charset=utf-8";
     private OkHttpClient client;
     private static RestClient restClient;
